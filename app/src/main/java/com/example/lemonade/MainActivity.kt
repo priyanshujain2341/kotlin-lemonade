@@ -32,18 +32,25 @@ class MainActivity : AppCompatActivity() {
     private val LEMONADE_STATE = "LEMONADE_STATE"
     private val LEMON_SIZE = "LEMON_SIZE"
     private val SQUEEZE_COUNT = "SQUEEZE_COUNT"
+
     // SELECT represents the "pick lemon" state
     private val SELECT = "select"
+
     // SQUEEZE represents the "squeeze lemon" state
     private val SQUEEZE = "squeeze"
+
     // DRINK represents the "drink lemonade" state
     private val DRINK = "drink"
+
     // RESTART represents the state where the lemonade has be drunk and the glass is empty
     private val RESTART = "restart"
+
     // Default the state to select
     private var lemonadeState = "select"
+
     // Default lemonSize to -1
     private var lemonSize = -1
+
     // Default the squeezeCount to -1
     private var squeezeCount = -1
 
@@ -109,9 +116,34 @@ class MainActivity : AppCompatActivity() {
         // TODO: When the image is clicked in the DRINK state the state should become RESTART
 
         // TODO: When the image is clicked in the RESTART state the state should become SELECT
+        when (lemonadeState) {
+            SELECT -> {
+                lemonadeState = SQUEEZE
+                lemonSize = LemonTree().pick()
+                squeezeCount = 0
+            }
+
+            SQUEEZE -> {
+                squeezeCount++
+                lemonSize--
+                if (lemonSize == 0) {
+                    lemonadeState = DRINK
+                }
+            }
+
+            DRINK -> {
+                lemonSize = -1
+                lemonadeState = RESTART
+            }
+
+            RESTART -> {
+                lemonadeState = SELECT
+            }
+        }
 
         // TODO: lastly, before the function terminates we need to set the view elements so that the
         //  UI can reflect the correct state
+        setViewElements()
     }
 
     /**
@@ -120,36 +152,39 @@ class MainActivity : AppCompatActivity() {
     private fun setViewElements() {
         val textAction: TextView = findViewById(R.id.text_action)
         val lemonImage: ImageView = findViewById(R.id.image_lemon_state)
+        var stringValue: Int = R.drawable.lemon_tree
+        var imageValue: Int = R.drawable.lemon_tree
         // TODO: set up a conditional that tracks the lemonadeState
-        when(lemonadeState)
-        {
+        when (lemonadeState) {
             SELECT -> {
-                textAction.setText(R.string.lemon_select)
-                lemonImage.setImageResource(R.drawable.lemon_tree)
+                stringValue = R.string.lemon_select
+                imageValue = R.drawable.lemon_tree
             }
 
             SQUEEZE -> {
-                textAction.setText(R.string.lemon_squeeze)
-                lemonImage.setImageResource(R.drawable.lemon_squeeze)
+                stringValue = R.string.lemon_squeeze
+                imageValue = R.drawable.lemon_squeeze
             }
 
             DRINK -> {
-                textAction.setText(R.string.lemon_drink)
-                lemonImage.setImageResource(R.drawable.lemon_drink)
+                stringValue = R.string.lemon_drink
+                imageValue = R.drawable.lemon_drink
             }
 
             RESTART -> {
-                textAction.setText(R.string.lemon_empty_glass)
-                lemonImage.setImageResource(R.drawable.lemon_restart)
+                stringValue = R.string.lemon_empty_glass
+                imageValue = R.drawable.lemon_restart
             }
         }
 
         // TODO: for each state, the textAction TextView should be set to the corresponding string from
         //  the string resources file. The strings are named to match the state
+        textAction.setText(stringValue)
 
         // TODO: Additionally, for each state, the lemonImage should be set to the corresponding
         //  drawable from the drawable resources. The drawables have the same names as the strings
         //  but remember that they are drawables, not strings.
+        lemonImage.setImageResource(imageValue)
     }
 
     /**

@@ -15,10 +15,10 @@
  */
 package com.example.lemonade
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
@@ -67,10 +67,11 @@ class MainActivity : AppCompatActivity() {
         setViewElements()
         lemonImage!!.setOnClickListener {
             // TODO: call the method that handles the state when the image is clicked
+            clickLemonImage()
         }
         lemonImage!!.setOnLongClickListener {
             // TODO: replace 'false' with a call to the function that shows the squeeze count
-            false
+            showSnackbar()
         }
     }
 
@@ -118,7 +119,30 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setViewElements() {
         val textAction: TextView = findViewById(R.id.text_action)
+        val lemonImage: ImageView = findViewById(R.id.image_lemon_state)
         // TODO: set up a conditional that tracks the lemonadeState
+        when(lemonadeState)
+        {
+            SELECT -> {
+                textAction.setText(R.string.lemon_select)
+                lemonImage.setImageResource(R.drawable.lemon_tree)
+            }
+
+            SQUEEZE -> {
+                textAction.setText(R.string.lemon_squeeze)
+                lemonImage.setImageResource(R.drawable.lemon_squeeze)
+            }
+
+            DRINK -> {
+                textAction.setText(R.string.lemon_drink)
+                lemonImage.setImageResource(R.drawable.lemon_drink)
+            }
+
+            RESTART -> {
+                textAction.setText(R.string.lemon_empty_glass)
+                lemonImage.setImageResource(R.drawable.lemon_restart)
+            }
+        }
 
         // TODO: for each state, the textAction TextView should be set to the corresponding string from
         //  the string resources file. The strings are named to match the state

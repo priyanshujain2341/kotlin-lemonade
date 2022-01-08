@@ -28,4 +28,4 @@ Tips
 - DO NOT ALTER THE PROVIDED TESTS
 
 # kotlin-lemonade
-This is an interactable android app written in Kotlin as a part of the Google Android Developers Kotliin Course.
+This is an interactable android app written in Kotlin as a part of the Google Android Developers Kotlin Course.
